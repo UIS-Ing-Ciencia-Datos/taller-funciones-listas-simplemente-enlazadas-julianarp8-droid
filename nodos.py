@@ -1,51 +1,120 @@
+# Clase Nodo
 class Nodo:
     def __init__(self, data):
         self.data = data
-        self.next = None
-   
-class ListaSimplementeEnlazada:
+        self.siguiente = None
+
+
+# Clase Lista Enlazada Simple
+class ListaSE:
     def __init__(self):
         self.cabeza = None
 
-    def Vacio(self):
-        if self.cabeza is None:
-            print("La lista está vacía.")
-            return
-        else:
-            print("La lista no está vacía.")
-   
-    def AgregarInicio(self, data):
-        nuevoNodo = Nodo(data)
-        if self.cabeza is None:
-            self.cabeza = nuevoNodo
-            return
-        else:
-            nuevoNodo.next = self.cabeza
-            self.cabeza = nuevoNodo
+    # Insertar al final
+    def insertarFinal(self, data):
+        nuevo = Nodo(data)
 
-    def AgregarFinal(self, data):
-        nuevoNodo = Nodo(data)
         if self.cabeza is None:
-            self.cabeza = nuevoNodo
+            self.cabeza = nuevo
             return
-        else:
-            actual = self.cabeza
-            while actual.next is not None:
-                actual = actual.next
-            actual.next = nuevoNodo
-           
-    def InsertarAntes(self, data):
-        nuevoNodo = Nodo(data)
+
+        actual = self.cabeza
+        while actual.siguiente:
+            actual = actual.siguiente
+
+        actual.siguiente = nuevo
+
+    # Insertar después de un valor X
+    def insertarDespues(self, valorX, nuevoValor):
+        actual = self.cabeza
+
+        while actual:
+            if actual.data == valorX:
+                nuevo = Nodo(nuevoValor)
+                nuevo.siguiente = actual.siguiente
+                actual.siguiente = nuevo
+                return
+            actual = actual.siguiente
+
+        print("Elemento no encontrado")
+
+    # Insertar antes de un valor X
+    def insertarAntes(self, valorX, nuevoValor):
         if self.cabeza is None:
-            self.cabeza = nuevoNodo
+            print("Lista vacía")
             return
-        else:
-            actual = self.cabeza
-            while actual.next is not None:
-                if actual.next.data == data:
-                    nuevoNodo.next = actual.next
-                    actual.next = nuevoNodo
-                    return
-                actual = actual.next
-            print("El nodo con el valor especificado no se encontró.")
+
+        # Si es el primero
+        if self.cabeza.data == valorX:
+            nuevo = Nodo(nuevoValor)
+            nuevo.siguiente = self.cabeza
+            self.cabeza = nuevo
+            return
+
+        actual = self.cabeza
+
+        while actual.siguiente:
+            if actual.siguiente.data == valorX:
+                nuevo = Nodo(nuevoValor)
+                nuevo.siguiente = actual.siguiente
+                actual.siguiente = nuevo
+                return
+            actual = actual.siguiente
+
+        print("Elemento no encontrado")
+
+    # Eliminar el primero
+    def eliminarPrimero(self):
+        if self.cabeza is None:
+            print("Lista vacía")
+            return
+
+        self.cabeza = self.cabeza.siguiente
+
+    # Eliminar el último
+    def eliminarUltimo(self):
+        if self.cabeza is None:
+            print("Lista vacía")
+            return
+
+        if self.cabeza.siguiente is None:
+            self.cabeza = None
+            return
+
+        actual = self.cabeza
+        while actual.siguiente.siguiente:
+            actual = actual.siguiente
+
+        actual.siguiente = None
+
+    # Buscar elemento (True o False)
+    def buscar(self, valor):
+        actual = self.cabeza
+
+        while actual:
+            if actual.data == valor:
+                return True
+            actual = actual.siguiente
+
+        return False
+
+    # Contar elementos
+    def contar(self):
+        contador = 0
+        actual = self.cabeza
+
+        while actual:
+            contador += 1
+            actual = actual.siguiente
+
+        return contador
+
+    # Imprimir lista
+    def imprimir(self):
+        actual = self.cabeza
+        while actual:
+            print(actual.data, end=" -> ")
+            actual = actual.siguiente
+        print("None")
+
         
